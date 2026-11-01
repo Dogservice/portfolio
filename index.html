@@ -184,6 +184,23 @@
     width: 82vw;
   }
 }
+ /* iPad landscape */
+@media (min-width: 681px) and (max-width: 1180px) and (orientation: landscape) {
+  .horizontal-viewport {
+    height: 70vh;
+    top: 15vh;
+  }
+
+  .horizontal-track {
+    gap: 24px;
+    padding: 0 5vw;
+  }
+
+  .horizontal-track .work {
+    flex: 0 0 65vw;
+    width: 65vw;
+  }
+}
   </style>
 </head>
 <body>
@@ -360,41 +377,36 @@ if (gallery && viewport && track) {
     updateHorizontalGallery();
   }
 
-  function updateHorizontalGallery() {
-    const progress = distance > 0
-      ? Math.max(0, Math.min(1,
-          (window.scrollY - sectionTop) / distance
-        ))
-      : 0;
+function updateHorizontalGallery() {
+  const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    track.style.transform =
-      `translate3d(${-distance * progress}px, 0, 0)`;
-  }
+  const progress = distance > 0
+    ? Math.max(0, Math.min(1,
+        (scrollY - sectionTop) / distance
+      ))
+    : 0;
 
-  window.addEventListener(
-  'scroll',
-  updateHorizontalGallery,
-  { passive: true }
-);
+  track.style.transform =
+    `translate3d(${-distance * progress}px, 0, 0)`;
+}
 
-window.addEventListener(
-  'resize',
-  setupHorizontalGallery
-);
+window.addEventListener('scroll', updateHorizontalGallery, { passive: true });
+window.addEventListener('resize', setupHorizontalGallery);
 
-window.addEventListener(
-  'orientationchange',
-  () => {
-    setTimeout(setupHorizontalGallery, 300);
-  }
-);
+window.addEventListener('orientationchange', () => {
+  setTimeout(setupHorizontalGallery, 500);
+});
 
 window.addEventListener('pageshow', setupHorizontalGallery);
+window.addEventListener('load', setupHorizontalGallery);
 
-  window.addEventListener('resize', setupHorizontalGallery);
-  window.addEventListener('load', setupHorizontalGallery);
+track.querySelectorAll('img').forEach((img) => {
+  if (!img.complete) {
+    img.addEventListener('load', setupHorizontalGallery, { once: true });
+  }
+});
 
-  setupHorizontalGallery();
+setupHorizontalGallery();
 }
   </script>
 </body>
