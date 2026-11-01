@@ -371,8 +371,10 @@ if (gallery && viewport && track) {
       parseFloat(headStyle.marginBottom) -
       window.innerHeight * 0.12;
 
-    sectionHeight = window.innerHeight + distance + 180;
-    gallery.style.height = `${sectionHeight}px`;
+const speedFactor = 1.8;
+
+sectionHeight = window.innerHeight + distance * speedFactor + 180;
+gallery.style.height = `${sectionHeight}px`;
 
     updateHorizontalGallery();
   }
@@ -382,7 +384,7 @@ function updateHorizontalGallery() {
 
   const progress = distance > 0
     ? Math.max(0, Math.min(1,
-        (scrollY - sectionTop) / distance
+        (scrollY - sectionTop) / (distance * speedFactor)
       ))
     : 0;
 
