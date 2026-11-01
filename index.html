@@ -419,38 +419,6 @@ if (gallery && viewport && track) {
 
   setupHorizontalGallery();
 }
-
-function updateHorizontalGallery() {
-  const scrollY = window.scrollY || document.documentElement.scrollTop;
-
-  const progress = distance > 0
-    ? Math.max(0, Math.min(1,
-        (scrollY - sectionTop) / (distance * speedFactor)
-      ))
-    : 0;
-
-  track.style.transform =
-    `translate3d(${-distance * progress}px, 0, 0)`;
-}
-
-window.addEventListener('scroll', updateHorizontalGallery, { passive: true });
-window.addEventListener('resize', setupHorizontalGallery);
-
-window.addEventListener('orientationchange', () => {
-  setTimeout(setupHorizontalGallery, 500);
-});
-
-window.addEventListener('pageshow', setupHorizontalGallery);
-window.addEventListener('load', setupHorizontalGallery);
-
-track.querySelectorAll('img').forEach((img) => {
-  if (!img.complete) {
-    img.addEventListener('load', setupHorizontalGallery, { once: true });
-  }
-});
-
-setupHorizontalGallery();
-}
   </script>
 </body>
 </html>
