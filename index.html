@@ -120,7 +120,65 @@
     transition: none;
   }
 }
+/* Horizontal Gallery */
+.horizontal-viewport {
+  position: sticky;
+  top: 12vh;
+  height: 76vh;
+  width: 100%;
+  overflow: hidden;
+}
 
+.horizontal-track {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: max-content;
+  height: 100%;
+  padding: 0 6vw;
+  will-change: transform;
+}
+
+.horizontal-track .work {
+  flex: 0 0  min(72vw, 620px);
+  width: min(72vw, 620px);
+  margin: 0;
+}
+
+.horizontal-track .image-frame {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.horizontal-track .image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.horizontal-track figcaption {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 14px;
+}
+
+@media (max-width: 600px) {
+  .horizontal-viewport {
+    top: 12vh;
+    height: 68vh;
+  }
+
+  .horizontal-track {
+    gap: 18px;
+    padding: 0 5vw;
+  }
+
+  .horizontal-track .work {
+    flex-basis: 82vw;
+    width: 82vw;
+  }
+}
   </style>
 </head>
 <body>
@@ -149,24 +207,39 @@
           <h2>SELECTED WORKS</h2>
           <p>ILLUSTRATION — 2026</p>
         </div>
-        <div class="grid">
-          <figure class="work" data-full="images/pink-halo.png">
-            <div class="image-frame"><img src="images/pink-halo.png" alt="ピンクと水色を基調にした、座っているキャラクターのイラスト" loading="lazy"></div>
-            <figcaption><span class="work-title">PINK HALO</span><span class="work-no">01 / 04</span></figcaption>
-          </figure>
-          <figure class="work" data-full="images/mint-china.png">
-            <div class="image-frame"><img src="images/mint-china.png" alt="ミントグリーンの髪のキャラクターと植物を描いたイラスト" loading="lazy"></div>
-            <figcaption><span class="work-title">MINT MOMENT</span><span class="work-no">02 / 04</span></figcaption>
-          </figure>
-          <figure class="work" data-full="images/blue-memory.png">
-            <div class="image-frame"><img src="images/blue-memory.png" alt="青と紫のネオンカラーで描かれたキャラクターのイラスト" loading="lazy"></div>
-            <figcaption><span class="work-title">NEON SIGNAL</span><span class="work-no">03 / 04</span></figcaption>
-          </figure>
-          <figure class="work" data-full="images/neon-triangle.png">
-            <div class="image-frame"><img src="images/neon-triangle.png" alt="ネオンカラーの三角形を背景にしたキャラクターのイラスト" loading="lazy"></div>
-            <figcaption><span class="work-title">BLUE MEMORY</span><span class="work-no">04 / 04</span></figcaption>
-          </figure>
-        </div>
+        <div class="horizontal-viewport">
+  <div class="horizontal-track">
+
+    <figure class="work" data-full="images/pink-halo.png">
+      <div class="image-frame">
+        <img src="images/pink-halo.png" alt="PINK HALO" loading="lazy">
+      </div>
+      <figcaption><span class="work-title">PINK HALO</span><span class="work-no">01 / 04</span></figcaption>
+    </figure>
+
+    <figure class="work" data-full="images/mint-china.png">
+      <div class="image-frame">
+        <img src="images/mint-china.png" alt="MINT MOMENT" loading="lazy">
+      </div>
+      <figcaption><span class="work-title">MINT MOMENT</span><span class="work-no">02 / 04</span></figcaption>
+    </figure>
+
+    <figure class="work" data-full="images/blue-memory.png">
+      <div class="image-frame">
+        <img src="images/blue-memory.png" alt="NEON SIGNAL" loading="lazy">
+      </div>
+      <figcaption><span class="work-title">NEON SIGNAL</span><span class="work-no">03 / 04</span></figcaption>
+    </figure>
+
+    <figure class="work" data-full="images/neon-triangle.png">
+      <div class="image-frame">
+        <img src="images/neon-triangle.png" alt="BLUE MEMORY" loading="lazy">
+      </div>
+      <figcaption><span class="work-title">BLUE MEMORY</span><span class="work-no">04 / 04</span></figcaption>
+    </figure>
+
+  </div>
+</div>
       </section>
     
       <section class="about" id="about">
