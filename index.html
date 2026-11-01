@@ -383,18 +383,20 @@ if (gallery && viewport && track) {
   }
 
   function updateHorizontalGallery() {
-    const scrollY =
-      window.scrollY || document.documentElement.scrollTop;
+  const scrollY = window.scrollY;
 
-    const progress = distance > 0
-      ? Math.max(0, Math.min(1,
-          (scrollY - sectionTop) / (distance * speedFactor)
-        ))
-      : 0;
+  const start = sectionTop;
+  const end = sectionTop + distance * speedFactor;
 
-    track.style.transform =
-      `translate3d(${-distance * progress}px, 0, 0)`;
-  }
+  const progress = distance > 0
+    ? Math.max(0, Math.min(1,
+        (scrollY - start) / (end - start)
+      ))
+    : 0;
+
+  track.style.transform =
+    `translate3d(${-distance * progress}px, 0, 0)`;
+}
 
   window.addEventListener('scroll', updateHorizontalGallery, {
     passive: true
