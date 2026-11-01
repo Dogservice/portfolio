@@ -145,6 +145,11 @@
   margin: 0;
 }
 
+.horizontal-track .work.reveal {
+  opacity: 1;
+  transform: none;
+}
+    
 .horizontal-track .image-frame {
   width: 100%;
   aspect-ratio: 4 / 5;
@@ -293,7 +298,7 @@
 document.documentElement.classList.add('js');
 
 const revealTargets = document.querySelectorAll(
-  '.hero .eyebrow, .hero h1, .hero-bottom, .section-head, .work, .about-layout, footer'
+  '.hero .eyebrow, .hero h1, .hero-bottom, .section-head, .about-layout, footer'
 );
 
 revealTargets.forEach((element, index) => {
@@ -337,24 +342,33 @@ if (gallery && viewport && track) {
       track.scrollWidth - viewport.clientWidth
     );
 
-    sectionTop = gallery.offsetTop;
-    sectionHeight = window.innerHeight + distance + 180;
+    const sectionHead = gallery.querySelector('.section-head');
+    const galleryStyle = getComputedStyle(gallery);
+    const headStyle = getComputedStyle(sectionHead);
 
+    sectionTop =
+      gallery.getBoundingClientRect().top +
+      window.scrollY +
+      parseFloat(galleryStyle.paddingTop) +
+      sectionHead.offsetHeight +
+      parseFloat(headStyle.marginBottom) -
+      window.innerHeight * 0.12;
+
+    sectionHeight = window.innerHeight + distance + 180;
     gallery.style.height = `${sectionHeight}px`;
 
     updateHorizontalGallery();
   }
 
   function updateHorizontalGallery() {
-  const progress = distance > 0
-    ? Math.max(0, Math.min(1,
-        (window.scrollY - sectionTop) / distance
-      ))
-    : 0;
+    const progress = distance > 0
+      ? Math.max(0, Math.min(1,
+          (window.scrollY - sectionTop) / distance
+        ))
+      : 0;
 
-  track.style.transform =
-    `translate3d(${-distance * progress}px, 0, 0)`;
-}
+    track.style.transform =
+      `translate3d(${-distance * progress}px, 0, 0)`;
   }
 
   window.addEventListener(
@@ -363,15 +377,8 @@ if (gallery && viewport && track) {
     { passive: true }
   );
 
-  window.addEventListener(
-    'resize',
-    setupHorizontalGallery
-  );
-
-  window.addEventListener(
-    'load',
-    setupHorizontalGallery
-  );
+  window.addEventListener('resize', setupHorizontalGallery);
+  window.addEventListener('load', setupHorizontalGallery);
 
   setupHorizontalGallery();
 }
