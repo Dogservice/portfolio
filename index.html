@@ -353,6 +353,9 @@ if (gallery && viewport && track) {
   let sectionTop = 0;
   let sectionHeight = 0;
 
+  // スライド速度（数字を大きくするとゆっくり）
+  const speedFactor = 1.8;
+
   function setupHorizontalGallery() {
     distance = Math.max(
       0,
@@ -371,13 +374,51 @@ if (gallery && viewport && track) {
       parseFloat(headStyle.marginBottom) -
       window.innerHeight * 0.12;
 
-const speedFactor = 1.8;
+    sectionHeight =
+      window.innerHeight + distance * speedFactor + 180;
 
-sectionHeight = window.innerHeight + distance * speedFactor + 180;
-gallery.style.height = `${sectionHeight}px`;
+    gallery.style.height = `${sectionHeight}px`;
 
     updateHorizontalGallery();
   }
+
+  function updateHorizontalGallery() {
+    const scrollY =
+      window.scrollY || document.documentElement.scrollTop;
+
+    const progress = distance > 0
+      ? Math.max(0, Math.min(1,
+          (scrollY - sectionTop) / (distance * speedFactor)
+        ))
+      : 0;
+
+    track.style.transform =
+      `translate3d(${-distance * progress}px, 0, 0)`;
+  }
+
+  window.addEventListener('scroll', updateHorizontalGallery, {
+    passive: true
+  });
+
+  window.addEventListener('resize', setupHorizontalGallery);
+
+  window.addEventListener('orientationchange', () => {
+    setTimeout(setupHorizontalGallery, 500);
+  });
+
+  window.addEventListener('pageshow', setupHorizontalGallery);
+  window.addEventListener('load', setupHorizontalGallery);
+
+  track.querySelectorAll('img').forEach((img) => {
+    if (!img.complete) {
+      img.addEventListener('load', setupHorizontalGallery, {
+        once: true
+      });
+    }
+  });
+
+  setupHorizontalGallery();
+}
 
 function updateHorizontalGallery() {
   const scrollY = window.scrollY || document.documentElement.scrollTop;
