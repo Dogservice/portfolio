@@ -372,10 +372,24 @@ if (gallery && viewport && track) {
   }
 
   window.addEventListener(
-    'scroll',
-    updateHorizontalGallery,
-    { passive: true }
-  );
+  'scroll',
+  updateHorizontalGallery,
+  { passive: true }
+);
+
+window.addEventListener(
+  'resize',
+  setupHorizontalGallery
+);
+
+window.addEventListener(
+  'orientationchange',
+  () => {
+    setTimeout(setupHorizontalGallery, 300);
+  }
+);
+
+window.addEventListener('pageshow', setupHorizontalGallery);
 
   window.addEventListener('resize', setupHorizontalGallery);
   window.addEventListener('load', setupHorizontalGallery);
