@@ -321,7 +321,60 @@ const observer = new IntersectionObserver((entries) => {
 revealTargets.forEach((element) => {
   observer.observe(element);
 });
+// Horizontal Scroll Gallery
+const gallery = document.querySelector('.gallery');
+const viewport = document.querySelector('.horizontal-viewport');
+const track = document.querySelector('.horizontal-track');
 
+if (gallery && viewport && track) {
+  let distance = 0;
+  let sectionTop = 0;
+  let sectionHeight = 0;
+
+  function setupHorizontalGallery() {
+    distance = Math.max(
+      0,
+      track.scrollWidth - viewport.clientWidth
+    );
+
+    sectionTop = gallery.offsetTop;
+    sectionHeight = window.innerHeight + distance + 180;
+
+    gallery.style.height = `${sectionHeight}px`;
+
+    updateHorizontalGallery();
+  }
+
+  function updateHorizontalGallery() {
+  const progress = distance > 0
+    ? Math.max(0, Math.min(1,
+        (window.scrollY - sectionTop) / distance
+      ))
+    : 0;
+
+  track.style.transform =
+    `translate3d(${-distance * progress}px, 0, 0)`;
+}
+  }
+
+  window.addEventListener(
+    'scroll',
+    updateHorizontalGallery,
+    { passive: true }
+  );
+
+  window.addEventListener(
+    'resize',
+    setupHorizontalGallery
+  );
+
+  window.addEventListener(
+    'load',
+    setupHorizontalGallery
+  );
+
+  setupHorizontalGallery();
+}
   </script>
 </body>
 </html>
